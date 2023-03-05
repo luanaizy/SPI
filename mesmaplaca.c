@@ -108,21 +108,21 @@ int main(void)
   {
     /* USER CODE END WHILE */
      for(int i=0; i<3; i++){
-        HAL_SPI_Transmit(&hspi1, &bufferm[i], 8, 1000);
-        HAL_SPI_Receive(&hpsi2, &buffers[i], 8, 1000);
+        HAL_SPI_Transmit(&hspi1, &bufferm[i], 8, 1000); //transmite um byte do vetor bufferm ao slave
+        HAL_SPI_Receive(&hpsi2, &buffers[i], 8, 1000); //recebe um byte do master e escreve no vetor buffers
      }
 
-     if (buffers[0] == 2){
-        a = buffers[1];
-        mem[a] = buffers[2];
+     if (buffers[0] == 2){ //se o primeiro byte se refere ao comando de escrita
+        a = buffers[1]; 
+        mem[a] = buffers[2]; //escreve o terceiro byte na memória, na posição referente ao segundo byte
      }
    
-     else if (buffers[0]== 3){
+     else if (buffers[0]== 3){ //se o primeiro byte se refere ao comando de leitura
         a = buffers[1];
-        datas[0] = mem[a];
+        datas[0] = mem[a]; //o dado da memória é escito no vetor datas
         for(int i=0; i<3; i++){
-           HAL_SPI_Transmit(&hpsi2, &datas, 8, 1000);
-           HAL_SPI_Receive(&hspi1, &datam, 8, 1000);
+           HAL_SPI_Transmit(&hpsi2, &datas[0], 8, 1000); //o dado é enviado ao master
+           HAL_SPI_Receive(&hspi1, &datam[0], 8, 1000); //o dado é recebido pelo master e escrito no vetor datam
         }
      }
 
