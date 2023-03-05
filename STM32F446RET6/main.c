@@ -99,7 +99,9 @@ uint8_t bufferm[3] = {2,1,3};
   {
 	  for(int i=0; i<3; i++){
 	 	 HAL_SPI_Transmit(&hspi1, &bufferm[i], 8, 1000); //transmite um byte por vez ao slave
+		HAL_Delay(500); //Delay para recebimento	  
 	  }
+	  
 	  
 	  HAL_SPI_Receive(&hspi1, &datam[0], 8, 1000); //recebe o dado do slave e escreve no vetor datam
     /* USER CODE END WHILE */
