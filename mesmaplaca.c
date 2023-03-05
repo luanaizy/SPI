@@ -95,7 +95,7 @@ int main(void)
 
   uint8_t mem[256];
   uint8_t buffers[3];
-  uint8_t bufferm[3] = {2,3,4}
+  uint8_t bufferm[3] = {2,3,4};
   uint8_t datas[1];
   uint8_t datam[1];
   int a;
