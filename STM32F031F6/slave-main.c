@@ -103,7 +103,7 @@ int main(void)
   {
     for (int i = 0; i < 3; i++)
     {
-	HAL_Delay(500) //Delay para transmissão
+	HAL_Delay(500); //Delay para transmissão
       	HAL_SPI_Receive(&hpsi1, &buffers[i], 8, 1000); //receber um byte por vez do master e adicionar ao vetor buffers
     }
     
