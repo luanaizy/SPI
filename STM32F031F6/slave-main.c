@@ -101,22 +101,19 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-
-    HAL_Delay(1500);
-
     for (int i = 0; i < 3; i++)
     {
-      HAL_SPI_Receive(&hpsi1, &buffers[i], 8, 1000);
+      HAL_SPI_Receive(&hpsi1, &buffers[i], 8, 1000); //receber um byte por vez do master e adicionar ao vetor buffers
     }
     
-     if (buffers[0] == 0x02){
-      a = buffers[1];
-      mem[a] = buffers[2];
+     if (buffers[0] == 0x02){ //se o primeiro byte se refere ao comando de escrita
+      a = buffers[1]; 
+      mem[a] = buffers[2]; //o terceiro byte é escrito na memória na posição determinada pelo segundo byte
     }
-    else if (buffers[0]== 0x03){
+    else if (buffers[0]== 0x03){ //se o primeiro byte se refere ao comando de leitura
       a = buffers[1];
-      datas[0] = mem[a];
-      HAL_SPI_Transmit(&hpsi1, &datas[0], 8, 1000);
+      datas[0] = mem[a]; //o dado alojado na memória será escrito no vetor datas
+      HAL_SPI_Transmit(&hpsi1, &datas[0], 8, 1000); //o dado será transmitido ao master
     }
 	  
 
