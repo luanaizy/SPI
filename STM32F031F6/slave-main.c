@@ -103,7 +103,8 @@ int main(void)
   {
     for (int i = 0; i < 3; i++)
     {
-      HAL_SPI_Receive(&hpsi1, &buffers[i], 8, 1000); //receber um byte por vez do master e adicionar ao vetor buffers
+	HAL_Delay(500) //Delay para transmissão
+      	HAL_SPI_Receive(&hpsi1, &buffers[i], 8, 1000); //receber um byte por vez do master e adicionar ao vetor buffers
     }
     
      if (buffers[0] == 0x02){ //se o primeiro byte se refere ao comando de escrita
