@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "stdint.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -96,7 +97,12 @@ uint8_t bufferm[3] = {2,1,3};
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  HAL_SPI_Transmit(&hspi1, bufferm, 8, 500);
+	  for(int i=0; i<3; i++){
+	 	 HAL_SPI_Transmit(&hspi1, &bufferm[i], 8, 500);
+	  }
+	  
+	  Hal_Delay(4000);
+	  HAL_SPI_Receive(&hspi1, &datam[0], 8, 1000);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
