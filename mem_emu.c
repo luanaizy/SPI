@@ -11,3 +11,13 @@ void mem_emu_init(mem_emu_hw_t *mem, SPI_HandleTypeDef *hspi, GPIO_TypeDef  *gpi
 }
 
 
+uint8_t mem_emu_read_byte(mem_emu_hw_t *mem, uint8_t addr){
+	uint8_t rxdata[]= {0x03, addr};
+	
+	HAL_SPI_Transmit(&(mem->hspi), rxdata, 2, 1000);
+	HAL_SPI_Receive(&(mem->hspi), mem, 1, HAL_MAX_DELAY);
+}
+
+
+
+
