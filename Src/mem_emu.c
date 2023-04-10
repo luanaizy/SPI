@@ -19,13 +19,18 @@ uint8_t mem_emu_read_byte(mem_emu_hw_t *mem, uint8_t addr){
 	
 	HAL_GPIO_WritePin(mem->gpio_port, mem->gpio_pin, GPIO_PIN_RESET);	
 	uint8_t cmd_read[]= {0x03, addr};	
+	uint8_t byte
 	HAL_SPI_Transmit(mem->hspi, cmd_read, 2, 1000);
-	HAL_SPI_Receive(mem->hspi, mem, 1, HAL_MAX_DELAY);
+	HAL_SPI_Receive(mem->hspi, byte, 1, HAL_MAX_DELAY);
+	HAL_GPIO_WritePin(mem->gpio_port, mem->gpio_pin, GPIO_PIN_SET);
+	
+	return byte;
 }
 
-void mem_emu_write_byte(mem_emu_hw_t *mem, uint8_t addr, uint8_t data){
+void mem_emu_write_byte(mem_emu_hw_t *mem, uint8_t addr, uint8_t byte){
 	
 	HAL_GPIO_WritePin(mem->gpio_port, mem->gpio_pin, GPIO_PIN_RESET);	
-	uint8_t cmd_write[]= {0x02, addr, data};	
+	uint8_t cmd_write[]= {0x02, addr, byte};	
 	HAL_SPI_Transmit(mem->hspi, cmd_write, 3, 1000);
+	HAL_GPIO_WritePin(mem->gpio_port, mem->gpio_pin, GPIO_PIN_SET);
 }
