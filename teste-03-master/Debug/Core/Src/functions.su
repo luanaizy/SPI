@@ -1,3 +1,0 @@
-../Core/Src/functions.c:13:6:mem_emu_init	24	static
-../Core/Src/functions.c:20:9:mem_emu_read_byte	24	static
-../Core/Src/functions.c:32:6:mem_emu_write_byte	24	static
