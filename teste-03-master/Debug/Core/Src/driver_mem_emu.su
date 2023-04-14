@@ -1,0 +1,3 @@
+../Core/Src/driver_mem_emu.c:17:6:mem_emu_init	24	static
+../Core/Src/driver_mem_emu.c:24:11:mem_emu_read_byte	32	static
+../Core/Src/driver_mem_emu.c:43:11:mem_emu_write_byte	24	static
