@@ -1,8 +1,6 @@
 /*
- * mem_emu.h
- *
- *  Created on: 11 de abr de 2023
- *      Author: luana
+ * @file     :mem_emu.h
+ * @brief    :biblioteca de funcoes para uso de memoria emulada
  */
 
 #ifndef INC_DRIVER_MEM_EMU_H_
@@ -14,10 +12,18 @@
 /*
  *struct de memória emulada e definição das suas características
  * */
+
+typedef void (*gpio_write_cb)(void*gpio_port, uint16_t gpio_pin, uint32_t value);
+typedef void (*spi_write_cb)(void*hspi, uint8_t *pdata, uint16_t size, uint32_t timeout);
+typedef void (*spi_read_cb)(void*hspi, uint8_t *pdata, uint16_t size, uint32_t timeout);
+
 typedef struct{
 	void *hspi;
 	void *gpio_port;
 	uint16_t gpio_pin;
+	gpio_write_cb gpio_write;
+	spi_write_cb spi_mem_write;
+	spi_read_cb spi_mem_read;
 }mem_emu_hw_t;
 
 
@@ -49,7 +55,7 @@ typedef enum
  * função de escrita em um pino gpio do hw
  * recebe: ponteiro para a referida memória, valor a ser escrito no pino (gpio_pin_high / gpio_pin_low)
  */
-void hw_gpio_write_pin(mem_emu_hw_t *mem, uint8_t value);
+void hw_gpio_write_pin(void*gpio_port, uint16_t gpio_pin, uint32_t value);
 
 
 
@@ -77,7 +83,7 @@ status_hw hw_spi_receive(void*hspi, uint8_t *pdata, uint16_t size, uint32_t time
  * função de inicialização da memória
  * recebe: ponteiro para a referida memória, conexão spi, porta do gpio e pino do gpio
  */
-void mem_emu_init(mem_emu_hw_t *mem, SPI_HandleTypeDef *hspi, GPIO_TypeDef  *gpio_port, uint16_t gpio_pin);
+void mem_emu_init(mem_emu_hw_t *mem, void *hspi, void  *gpio_port, uint16_t gpio_pin, gpio_write_cb gpio_write, spi_write_cb spi_mem_write, spi_read_cb spi_mem_read);
 
 
 

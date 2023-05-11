@@ -60,7 +60,10 @@ static void MX_SPI1_Init(void);
 mem_emu_hw_t mem_1 = {
 		.hspi = &hspi1,
 		.gpio_port = GPIOA,
-		.gpio_pin = GPIO_PIN_0
+		.gpio_pin = GPIO_PIN_0,
+		.gpio_write = &hw_gpio_write_pin,
+		.spi_mem_write = &hw_spi_transmit,
+		.spi_mem_read = &hw_spi_receive
 };
 /* USER CODE END 0 */
 

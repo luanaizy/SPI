@@ -1,8 +1,7 @@
-/*
- * functions.c
+/**
+ * @file    : driver_mem_emu.c
+ * @brief   : Driver de funcoes para a memoria emulada.
  *
- *  Created on: 11 de abr de 2023
- *      Author: luana
  */
 #include <driver_mem_emu.h>
 /*
@@ -18,10 +17,13 @@
  * função de inicialização da memória
  * recebe: ponteiro para a referida memória, conexão spi, porta do gpio e pino do gpio
  */
-void mem_emu_init(mem_emu_hw_t *mem, void *hspi, void *gpio_port, uint16_t gpio_pin){
+void mem_emu_init(mem_emu_hw_t *mem, void *hspi, void *gpio_port, uint16_t gpio_pin, gpio_write_cb gpio_write, spi_write_cb spi_mem_write, spi_read_cb spi_mem_read){
 	mem->hspi = hspi;
 	mem->gpio_port = gpio_port;
 	mem->gpio_pin = gpio_pin;
+	mem->gpio_write = gpio_write;
+	mem->spi_mem_write = spi_mem_write;
+	mem->spi_mem_read = spi_mem_read;
 }
 /*
  * função de leitura de um byte na memória emulada
@@ -32,7 +34,7 @@ status_hw mem_emu_read_byte(mem_emu_hw_t *mem, uint8_t addr, uint8_t *pdata){
 
 	int errorcode;
 
-	hw_gpio_write_pin(mem,  gpio_pin_low);
+	hw_gpio_write_pin(mem->gpio_port, mem->gpio_pin,  gpio_pin_low);
 	uint8_t cmd_read[]= {MEM_EMU_CMD_READ, addr};
 	errorcode = hw_spi_transmit(mem->hspi, cmd_read, 2, MEM_EMU_TIMEOUT);
 	if(errorcode == error_timeout){
@@ -42,7 +44,7 @@ status_hw mem_emu_read_byte(mem_emu_hw_t *mem, uint8_t addr, uint8_t *pdata){
 	if(errorcode == error_timeout){
 			return errorcode;
 	}
-	hw_gpio_write_pin(mem, gpio_pin_high);
+	hw_gpio_write_pin(mem->gpio_port, mem->gpio_pin, gpio_pin_high);
 
 	return error_ok ;
 }
@@ -55,13 +57,13 @@ status_hw mem_emu_read_byte(mem_emu_hw_t *mem, uint8_t addr, uint8_t *pdata){
 status_hw mem_emu_write_byte(mem_emu_hw_t *mem, uint8_t addr, uint8_t byte){
 	int errorcode;
 
-	hw_gpio_write_pin(mem,  gpio_pin_low);
+	hw_gpio_write_pin(mem->gpio_port, mem->gpio_pin, gpio_pin_low);
 	uint8_t cmd_write[]= {MEM_EMU_CMD_WRITE, addr, byte};
 	errorcode = hw_spi_transmit(mem->hspi, cmd_write, 3, MEM_EMU_TIMEOUT);
 	if (errorcode == error_timeout){
 			return errorcode;
 		}
-	hw_gpio_write_pin(mem,  gpio_pin_high);
+	hw_gpio_write_pin(mem->gpio_port, mem->gpio_pin, gpio_pin_high);
 
 	return error_ok;
 }

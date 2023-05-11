@@ -1,8 +1,7 @@
 /*
- * driver_hw_mem_emu.c
+ * @file    : driver_hw_mem_emu.c
+ * @brief   : Driver de funcoes para gpio e spi. considere alterar em caso de mudanca de hardware
  *
- *  Created on: 13 de abr de 2023
- *      Author: luana
  */
 
 #include "driver_mem_emu.h"
@@ -14,7 +13,7 @@
  * recebe: ponteiro para a referida memória, valor a ser escrito no pino (gpio_pin_high / gpio_pin_low)
  */
 
-void hw_gpio_write_pin(mem_emu_hw_t *mem, uint8_t value){
+void hw_gpio_write_pin(void*gpio_port, uint16_t gpio_pin, uint32_t value){
 	uint8_t pin_value;
 
 	if(value == gpio_pin_high){
@@ -23,7 +22,7 @@ void hw_gpio_write_pin(mem_emu_hw_t *mem, uint8_t value){
 		pin_value = GPIO_PIN_RESET;
 	}
 
-	HAL_GPIO_WritePin((GPIO_TypeDef *)mem->gpio_port, mem->gpio_pin, pin_value);
+	HAL_GPIO_WritePin((GPIO_TypeDef *)gpio_port, gpio_pin, pin_value);
 
 }
 
