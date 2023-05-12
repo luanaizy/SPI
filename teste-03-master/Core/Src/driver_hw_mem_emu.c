@@ -4,14 +4,18 @@
  *
  */
 
+/* includes------------------------------------------------------------------------------------------*/
 #include "driver_mem_emu.h"
-
 #include "stm32f4xx_hal.h"
 
-/*
- * função de escrita em um pino gpio do hw
- * recebe: ponteiro para a referida memória, valor a ser escrito no pino (gpio_pin_high / gpio_pin_low)
- */
+
+/**
+  * @brief função de escrita em um pino gpio do hw
+  * @param  gpio_port ponteiro para porta do gpio
+  * @param gpio_pin valor do pino do gpio
+  * @param value valor a ser escrito no gpio
+  * @retval None
+  */
 
 void hw_gpio_write_pin(void*gpio_port, uint16_t gpio_pin, uint32_t value){
 	uint8_t pin_value;
@@ -26,11 +30,15 @@ void hw_gpio_write_pin(void*gpio_port, uint16_t gpio_pin, uint32_t value){
 
 }
 
-/*
- * função bloqueante de transmissão spi
- * recebe: ponteiro para a conexão spi, ponteiro para dado a ser transmitido, tamanho do dado em bytes, timeout em ms
- * retorna: status
- */
+
+/**
+  * @brief função bloqueante de transmissão spi
+  * @param hspi ponteiro para a conexão spi
+  * @param pdata ponteiro para dado a ser transmitido
+  * @param size tamanho do dado em bytes
+  * @param timeout timeout em ms
+  * @retval status_hw
+  */
 
 status_hw hw_spi_transmit(void *hspi, uint8_t*pdata, uint16_t size, uint32_t timeout){
 	int errorcode;
@@ -41,11 +49,14 @@ status_hw hw_spi_transmit(void *hspi, uint8_t*pdata, uint16_t size, uint32_t tim
 	return error_ok;
 }
 
-/*
- * função bloqueante de recepção spi
- * recebe: ponteiro para a conexão spi, ponteiro para alocação do dado, tamanho do dado em bytes, timeout em ms
- * retorna: status
- */
+/**
+  * @brief função bloqueante de recepção spi
+  * @param hspi ponteiro para a conexão spi
+  * @param pdata ponteiro para buffer onde será armazenado o dado
+  * @param size tamanho do dado em bytes
+  * @param timeout timeout em ms
+  * @retval status_hw
+  */
 
 status_hw hw_spi_receive(void*hspi, uint8_t *pdata, uint16_t size, uint32_t timeout){
 	int errorcode;

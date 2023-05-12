@@ -4,19 +4,26 @@
  *
  */
 #include <driver_mem_emu.h>
-/*
- * Comandos suportados pela memoria mem_emu
- * */
-#define MEM_EMU_CMD_WRITE (0x02)
-#define MEM_EMU_CMD_READ  (0x03)
 
-/* Timeout das funções de leitura e escrita SPI em ms*/
-#define MEM_EMU_TIMEOUT   (1000)
 
-/*
- * função de inicialização da memória
- * recebe: ponteiro para a referida memória, conexão spi, porta do gpio e pino do gpio
- */
+/*defines-----------------------------------------------------------------------------------------*/
+#define MEM_EMU_CMD_WRITE (0x02)/* @brief comando de escrita na memória emulada */
+#define MEM_EMU_CMD_READ  (0x03)/* @brief comando de leitura na memória emulada*/
+
+#define MEM_EMU_TIMEOUT   (1000)/* @brief Timeout das funções de leitura e escrita SPI em ms*/
+
+
+/**
+  * @brief função de inicialização da memória
+  * @param mem ponteiro para estrutura de memória emulada
+  * @param hspi ponteiro para a conexão spi da memória
+  * @param gpio_port ponteiro para a porta do gpio
+  * @param gpio_pin pino do gpio
+  * @param gpio_write ponteiro para função de escrita no gpio referente a mem
+  * @param spi_mem_write ponteiro para função de escrita spi referente a mem
+  * @param spi_mem_read ponteiro para função de leitura spi referente a mem
+  * @retval status_hw
+  */
 void mem_emu_init(mem_emu_hw_t *mem, void *hspi, void *gpio_port, uint16_t gpio_pin, gpio_write_cb gpio_write, spi_write_cb spi_mem_write, spi_read_cb spi_mem_read){
 	mem->hspi = hspi;
 	mem->gpio_port = gpio_port;
@@ -25,10 +32,15 @@ void mem_emu_init(mem_emu_hw_t *mem, void *hspi, void *gpio_port, uint16_t gpio_
 	mem->spi_mem_write = spi_mem_write;
 	mem->spi_mem_read = spi_mem_read;
 }
-/*
- * função de leitura de um byte na memória emulada
- * recebe: ponteiro para a referida memória, endereço de leitura, ponteiro para alocação do byte
- * */
+
+
+/**
+  * @brief função de leitura de um byte na memória emulada
+  * @param mem ponteiro para estrutura de memória emulada
+  * @param addr endereço da memória a ser lido
+  * @param pdata ponteiro para alocação do byte
+  * @retval status_hw
+  */
 
 status_hw mem_emu_read_byte(mem_emu_hw_t *mem, uint8_t addr, uint8_t *pdata){
 
@@ -49,11 +61,14 @@ status_hw mem_emu_read_byte(mem_emu_hw_t *mem, uint8_t addr, uint8_t *pdata){
 	return error_ok ;
 }
 
-/*
- * função de escrita de um byte na memória emulada
- * recebe: ponteiro para a referida memória, endereço de escrita, byte a ser escrito
- * */
 
+/**
+  * @brief função de escrita de um byte na memória emulada
+  * @param mem ponteiro para estrutura de memória emulada
+  * @param addr endereço da memória no qual será escrito o byte
+  * @param byte byte a ser escrito
+  * @retval status_hw
+  */
 status_hw mem_emu_write_byte(mem_emu_hw_t *mem, uint8_t addr, uint8_t byte){
 	int errorcode;
 

@@ -351,10 +351,10 @@ Disassembly of section .text:
  8000506:	bf00      	nop
 
 08000508 <hw_gpio_write_pin>:
-/*
- * função de escrita em um pino gpio do hw
  * recebe: ponteiro para a referida memória, valor a ser escrito no pino (gpio_pin_high / gpio_pin_low)
  */
+
+
 
 void hw_gpio_write_pin(void*gpio_port, uint16_t gpio_pin, uint32_t value){
  8000508:	b580      	push	{r7, lr}
